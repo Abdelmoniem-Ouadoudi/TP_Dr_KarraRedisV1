@@ -1,0 +1,37 @@
+version: '3'
+
+services:
+  primary:
+    image: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./primary:/var/lib/postgresql/data
+    networks:
+      - pgnet
+
+  replica:
+    image: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5433:5432"
+    volumes:
+      - ./replica:/var/lib/postgresql/data
+    networks:
+      - pgnet
+
+  redis:
+    image: redis
+    container_name: redis-server
+    ports:
+      - "6379:6379"
+    networks:
+      - pgnet
+
+networks:
+  pgnet:
